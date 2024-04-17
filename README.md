@@ -10,4 +10,4 @@ Das Repository ist in drei Unterverzeichnisse gegliedert:
 
 - `server`: Dies ist das Backend
 
-- `app`: Dies ist die Android-App. Die gleichen Funktionen wie `cli-client`, nur halt grafisch
+- `app`: Dies ist die Android-App mit  gleichen Funktionen wie `cli-client`
