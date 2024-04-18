@@ -9,31 +9,35 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TrackService {
     @Autowired
     private TrackRepository trackRepository;
-    public Track addTrack(Track track) {
+    public Track saveTrack(Track track) {
         if (track == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
         return trackRepository.save(track);
+    }
+    public List<Track> getAllTracks() {
+        return trackRepository.findAll();
+    }
+    public List<Track> getAllTracksByIds(List<Integer> trackIDs) {
+        return trackRepository.findAllById(trackIDs);
     }
     public Track getTrackById(int id) {
         Track toGet = trackRepository.findById(id).orElse(null);
         if (toGet == null) throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         return toGet;
     }
-    public void deleteTrack(Track track) {
-        if (track == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
-        trackRepository.delete(track);
+    public void deleteTrack(int id) {
+        trackRepository.deleteById(id);
     }
-    public List<Track> getAllTracksNamed(String name) {
+    public List<Track> getAllTracksNamedLike(String name) {
         if (name == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
-        return trackRepository.findAllTracksNamed(name);
+        return trackRepository.findByNameLike(name);
     }
     public List<Track> getAllTracksBelongingTo(Category category) {
         if (category == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
-        return trackRepository.findAllTracksBelongingTo(category);
+        return trackRepository.findByCategories(category);
     }
 }

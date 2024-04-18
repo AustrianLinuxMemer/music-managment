@@ -1,20 +1,19 @@
 package net.htlgkr.fuerederl21025.musicmanagment.entities;
 
 import jakarta.persistence.*;
-import net.htlgkr.fuerederl21025.musicmanagment.dtos.URLDto;
 
 @Entity
-public class URL {
+public class Url {
     @Id
     @GeneratedValue
     private int id;
-    @Column(nullable = false)
-    private MIME mimetype;
+    @OneToOne
+    private Mime mime;
     @ManyToOne
     private Track track;
     private String urlTo;
 
-    public URL() {
+    public Url() {
     }
 
     public int getId() {
@@ -25,12 +24,13 @@ public class URL {
         this.id = id;
     }
 
-    public MIME getMimetype() {
-        return mimetype;
+    public Mime getMime() {
+        return mime;
     }
 
-    public void setMimetype(MIME mimetype) {
-        this.mimetype = mimetype;
+    public void setMime(Mime mime) {
+        if (mime == null) return;
+        this.mime = mime;
     }
 
     public Track getTrack() {
@@ -46,6 +46,7 @@ public class URL {
     }
 
     public void setUrlTo(String urlTo) {
+        if (urlTo == null) return;
         this.urlTo = urlTo;
     }
 }

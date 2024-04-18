@@ -1,6 +1,7 @@
 package net.htlgkr.fuerederl21025.musicmanagment.entities;
 
 import jakarta.persistence.*;
+import net.htlgkr.fuerederl21025.musicmanagment.dtos.CategoryDto;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class Category {
     @GeneratedValue
     private int id;
     @Column(unique = true, nullable = false)
-    private String categoryName;
+    private String name;
     @ManyToMany
     private List<Track> tracks;
 
@@ -25,12 +26,13 @@ public class Category {
         this.id = id;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public void setName(String name) {
+        if (name == null) return;
+        this.name = name;
     }
 
     public List<Track> getTracks() {
@@ -38,6 +40,7 @@ public class Category {
     }
 
     public void setTracks(List<Track> tracks) {
+        if (tracks == null) return;
         this.tracks = tracks;
     }
 }

@@ -4,21 +4,23 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import org.apache.tika.Tika;
-
-import java.io.File;
-import java.io.IOException;
+import net.htlgkr.fuerederl21025.musicmanagment.dtos.MimeDto;
+import org.springframework.util.InvalidMimeTypeException;
 
 @Entity
-public class MIME {
-    public static final String MIME_REGEX = "[^\\/]+\\/?[^\\/+]+\\+?[^\\/+]+";
+public class Mime {
+    public static final String MIME_REGEX = "[^/+]+/[^/]*";
     @Id
     @GeneratedValue
     private int id;
     @Column(unique = true, nullable = false)
     private String mime;
 
-    public MIME() {
+    public Mime() {
+    }
+    public Mime(MimeDto mimeDto) {
+        this.id = mimeDto.id();
+        this.mime = mimeDto.mime();
     }
 
     public int getId() {
@@ -32,19 +34,13 @@ public class MIME {
     public String getMime() {
         return mime;
     }
-
     public void setMime(String mime) {
-        if (!isValidMimeString(mime)) return;
+        if (!isValidMimeString(mime)) throw new InvalidMimeTypeException(mime, "The provided Mulitpurpose Media Extension violates the Regex it's tested against: " + MIME_REGEX);
         this.mime = mime;
     }
+
     public static boolean isValidMimeString(String string) {
         return string.matches(MIME_REGEX);
-    }
-    public static MIME getMimeFromFileType(File file) throws IOException {
-        MIME mime = new MIME();
-        Tika tika = new Tika();
-        mime.setMime(tika.detect(file));
-        return mime;
     }
 
     @Override

@@ -14,12 +14,12 @@ public class Track {
     @ManyToMany
     private List<Category> categories;
     @OneToMany
-    private List<URL> URLs;
-    private URL sourceURL;
+    private List<Url> Urls;
+    @OneToOne
+    private Url sourceUrl;
 
     public Track() {
     }
-
     public int getId() {
         return id;
     }
@@ -33,6 +33,7 @@ public class Track {
     }
 
     public void setName(String name) {
+        if (name == null) return;
         this.name = name;
     }
 
@@ -41,22 +42,25 @@ public class Track {
     }
 
     public void setCategories(List<Category> categories) {
+        if (categories == null) return;
         this.categories = categories;
     }
 
-    public List<URL> getURLs() {
-        return URLs;
+    public List<Url> getURLs() {
+        return Urls;
     }
 
-    public void setURLs(List<URL> URLs) {
-        this.URLs = URLs;
+    public void setURLs(List<Url> Urls) {
+        if (Urls == null) return;
+        this.Urls = Urls;
     }
 
-    public URL getSourceURL() {
-        return sourceURL;
+    public Url getSourceURL() {
+        return sourceUrl;
     }
 
-    public void setSourceURL(URL sourceURL) {
-        this.sourceURL = sourceURL;
+    public void setSourceURL(Url sourceUrl) {
+        if (sourceUrl == null) return;
+        this.sourceUrl = sourceUrl;
     }
 }

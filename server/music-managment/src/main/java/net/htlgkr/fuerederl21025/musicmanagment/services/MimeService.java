@@ -1,38 +1,37 @@
 package net.htlgkr.fuerederl21025.musicmanagment.services;
 
-import net.htlgkr.fuerederl21025.musicmanagment.entities.MIME;
-import net.htlgkr.fuerederl21025.musicmanagment.repositories.MIMERepository;
+import net.htlgkr.fuerederl21025.musicmanagment.entities.Mime;
+import net.htlgkr.fuerederl21025.musicmanagment.repositories.MimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 @Service
-public class MIMEService {
+public class MimeService {
     @Autowired
-    private MIMERepository mimeRepository;
-    public MIME addMime(MIME mime) {
+    private MimeRepository mimeRepository;
+    public Mime saveMime(Mime mime) {
         if (mime == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
         return mimeRepository.save(mime);
     }
-    public MIME getMimeById(int id) {
-        MIME toGet = mimeRepository.findById(id).orElse(null);
+    public Mime getMimeById(int id) {
+        Mime toGet = mimeRepository.findById(id).orElse(null);
         if (toGet == null) throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         return toGet;
     }
-    public void deleteMime(MIME mime) {
-        if (mime == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
-        mimeRepository.delete(mime);
+    public void deleteMimeById(int id) {
+        mimeRepository.deleteById(id);
     }
-    public MIME getMimeMatching(String mime) {
+    public Mime getMimeMatching(String mime) {
         if (mime == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
-        MIME toTest = mimeRepository.findMIMEMatching(mime).orElse(null);
+        Mime toTest = mimeRepository.findByMime(mime).orElse(null);
         if (toTest == null) throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         return toTest;
+    }
+    public List<Mime> getAllMime() {
+        return mimeRepository.findAll();
     }
 }
