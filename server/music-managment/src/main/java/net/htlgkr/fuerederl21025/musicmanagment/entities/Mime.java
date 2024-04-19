@@ -35,7 +35,7 @@ public class Mime {
         return mime;
     }
     public void setMime(String mime) {
-        if (!isValidMimeString(mime)) throw new InvalidMimeTypeException(mime, "The provided Mulitpurpose Media Extension violates the Regex it's tested against: " + MIME_REGEX);
+        if (!isValidMimeString(mime)) throw new InvalidMimeTypeException(mime, "The provided Multipurpose Media Extension string violates the Regex: " + MIME_REGEX);
         this.mime = mime;
     }
 

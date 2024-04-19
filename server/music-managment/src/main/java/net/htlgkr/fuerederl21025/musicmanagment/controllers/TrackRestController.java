@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/tracks")
@@ -26,6 +27,7 @@ public class TrackRestController {
         track.setCategories(trackDto.listOfAssociatedCategories().stream().map(categoryService::getCategoryById).toList());
         track.setURLs(trackDto.listOfAssociatedURLs().stream().map(urlService::getUrlById).toList());
         track.setSourceURL(urlService.getUrlById(trackDto.source().id()));
+        track.setTrackUniqueMetadata(trackDto.trackUniqueMetadata());
         return new TrackDto(trackService.saveTrack(track));
     }
     @PutMapping("/{id}")
@@ -35,6 +37,7 @@ public class TrackRestController {
         track.setCategories(trackDto.listOfAssociatedCategories().stream().map(categoryService::getCategoryById).toList());
         track.setURLs(trackDto.listOfAssociatedURLs().stream().map(urlService::getUrlById).toList());
         track.setSourceURL(urlService.getUrlById(trackDto.source().id()));
+        track.setTrackUniqueMetadata(trackDto.trackUniqueMetadata());
         return new TrackDto(trackService.saveTrack(track));
     }
     @GetMapping("/{id}")

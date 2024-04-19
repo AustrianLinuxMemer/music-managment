@@ -3,6 +3,7 @@ package net.htlgkr.fuerederl21025.musicmanagment.entities;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Entity
 public class Track {
@@ -17,6 +18,7 @@ public class Track {
     private List<Url> Urls;
     @OneToOne
     private Url sourceUrl;
+    private Map<String, String> trackUniqueMetadata;
 
     public Track() {
     }
@@ -62,5 +64,13 @@ public class Track {
     public void setSourceURL(Url sourceUrl) {
         if (sourceUrl == null) return;
         this.sourceUrl = sourceUrl;
+    }
+
+    public Map<String, String> getTrackUniqueMetadata() {
+        return trackUniqueMetadata;
+    }
+
+    public void setTrackUniqueMetadata(Map<String, String> trackUniqueMetadata) {
+        this.trackUniqueMetadata = trackUniqueMetadata;
     }
 }
