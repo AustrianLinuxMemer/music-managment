@@ -13,7 +13,7 @@ public class Mime {
     public static final String MIME_REGEX = "[^/+]+/[^/]*";
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
     @Column(unique = true, nullable = false)
     private String mime;
 
@@ -24,11 +24,11 @@ public class Mime {
         this.mime = mimeDto.mime();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

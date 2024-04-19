@@ -50,7 +50,7 @@ public class MimeRestController {
     public MimeDto getMimeByName(@RequestParam String mime) {
         return new MimeDto(mimeService.getMimeMatching(mime));
     }
-    @GetMapping("/all")
+    @GetMapping("/")
     public List<MimeDto> getAllMimes() {
         return mimeService.getAllMime().stream().map(MimeDto::new).toList();
     }

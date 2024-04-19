@@ -1,15 +1,17 @@
 package net.htlgkr.fuerederl21025.musicmanagment.entities;
 
+import com.google.gson.Gson;
 import jakarta.persistence.*;
-import net.htlgkr.fuerederl21025.musicmanagment.dtos.CategoryDto;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @Entity
 public class Category {
+
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
     @Column(unique = true, nullable = false)
     private String name;
     @ManyToMany
@@ -18,11 +20,11 @@ public class Category {
     public Category() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

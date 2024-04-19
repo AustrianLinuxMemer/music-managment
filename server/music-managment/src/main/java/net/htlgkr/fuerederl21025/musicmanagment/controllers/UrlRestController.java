@@ -23,8 +23,8 @@ public class UrlRestController {
     public UrlDto createUrl(@RequestBody UrlDto urlDto) {
         Url url = new Url();
         url.setUrlTo(urlDto.url());
-        url.setMime(mimeService.getMimeById(urlDto.mime()));
         url.setTrack(trackService.getTrackById(urlDto.track()));
+        url.setMime(mimeService.getMimeById(urlDto.mime()));
         url.setUrlTo(urlDto.url());
         return new UrlDto(urlService.saveUrl(url));
     }
@@ -32,8 +32,8 @@ public class UrlRestController {
     public UrlDto updateUrl(@PathVariable int id, @RequestBody UrlDto urlDto) {
         Url url = urlService.getUrlById(id);
         url.setUrlTo(urlDto.url());
-        url.setMime(mimeService.getMimeById(urlDto.mime()));
         url.setTrack(trackService.getTrackById(urlDto.track()));
+        url.setMime(mimeService.getMimeById(urlDto.mime()));
         url.setUrlTo(urlDto.url());
         return new UrlDto(urlService.saveUrl(url));
     }
@@ -47,7 +47,7 @@ public class UrlRestController {
         urlService.deleteUrl(id);
         return urlDto;
     }
-    @GetMapping("/all")
+    @GetMapping("/")
     public List<UrlDto> getAllUrls(@RequestParam(required = false) Integer mimeId, @RequestParam(required = false) Integer trackId) {
         if (mimeId == null && trackId == null) {
             return urlService.getAllUrls().stream().map(UrlDto::new).toList();

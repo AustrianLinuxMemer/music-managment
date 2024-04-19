@@ -17,6 +17,7 @@ public class MimeService {
     public Mime saveMime(Mime mime) {
         if (mime == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_REQUEST_MESSAGE);
         if (mime.getMime() == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_VALUE_MESSAGE);
+        if (mimeRepository.findByMime(mime.getMime()).isPresent()) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.ALREADY_EXISTS_MESSAGE);
         return mimeRepository.save(mime);
     }
     public Mime getMimeById(int id) {

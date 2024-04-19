@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class MusicManagmentApplicationTests {
+class MusicManagementApplicationTests {
 
 	@Test
 	void contextLoads() {

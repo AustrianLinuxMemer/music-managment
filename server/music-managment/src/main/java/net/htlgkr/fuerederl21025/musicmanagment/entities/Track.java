@@ -3,8 +3,8 @@ package net.htlgkr.fuerederl21025.musicmanagment.entities;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +13,7 @@ public class Track {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
     @Column(unique = true, nullable = false)
     private String name;
     @ManyToMany
@@ -26,11 +26,11 @@ public class Track {
 
     public Track() {
     }
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

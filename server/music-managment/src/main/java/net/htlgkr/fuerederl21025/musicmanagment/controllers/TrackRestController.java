@@ -54,7 +54,7 @@ public class TrackRestController {
     public List<TrackDto> getAllTracksNamed(@RequestParam String name) {
         return trackService.getAllTracksNamedLike(name).stream().map(TrackDto::new).toList();
     }
-    @GetMapping("/all")
+    @GetMapping("/")
     public List<TrackDto> getAllTracks() {
         return trackService.getAllTracks().stream().map(TrackDto::new).toList();
     }
