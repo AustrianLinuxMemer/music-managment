@@ -1,12 +1,17 @@
 package net.htlgkr.fuerederl21025.musicmanagment.entities;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import jakarta.persistence.*;
+import net.htlgkr.fuerederl21025.musicmanagment.csv.CsvDeliminators;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Entity
 public class Track {
+
     @Id
     @GeneratedValue
     private int id;
@@ -18,7 +23,7 @@ public class Track {
     private List<Url> Urls;
     @OneToOne
     private Url sourceUrl;
-    private Map<String, String> trackUniqueMetadata;
+    private String trackUniqueMetadataJSON;
 
     public Track() {
     }
@@ -67,10 +72,10 @@ public class Track {
     }
 
     public Map<String, String> getTrackUniqueMetadata() {
-        return trackUniqueMetadata;
+        return new Gson().fromJson(this.trackUniqueMetadataJSON, new TypeToken<Map<String, String>>() {}.getType());
     }
 
     public void setTrackUniqueMetadata(Map<String, String> trackUniqueMetadata) {
-        this.trackUniqueMetadata = trackUniqueMetadata;
+        this.trackUniqueMetadataJSON = new Gson().toJson(trackUniqueMetadata);
     }
 }
