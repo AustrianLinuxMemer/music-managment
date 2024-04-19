@@ -3,7 +3,6 @@ package net.htlgkr.fuerederl21025.musicmanagment.entities;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import jakarta.persistence.*;
-import net.htlgkr.fuerederl21025.musicmanagment.csv.CsvDeliminators;
 
 import java.util.HashMap;
 import java.util.List;
