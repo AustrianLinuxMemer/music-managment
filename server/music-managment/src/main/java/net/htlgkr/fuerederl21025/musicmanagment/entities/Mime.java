@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import net.htlgkr.fuerederl21025.musicmanagment.dtos.MimeDto;
+import net.htlgkr.fuerederl21025.musicmanagment.dtos.outgoing.response.MimeResponseDto;
 import net.htlgkr.fuerederl21025.musicmanagment.errormessages.ErrorMessages;
 import org.springframework.util.InvalidMimeTypeException;
 
@@ -19,9 +19,9 @@ public class Mime {
 
     public Mime() {
     }
-    public Mime(MimeDto mimeDto) {
-        this.id = mimeDto.id();
-        this.mime = mimeDto.mime();
+    public Mime(MimeResponseDto mimeResponseDto) {
+        this.id = mimeResponseDto.id();
+        this.mime = mimeResponseDto.mime();
     }
 
     public Integer getId() {

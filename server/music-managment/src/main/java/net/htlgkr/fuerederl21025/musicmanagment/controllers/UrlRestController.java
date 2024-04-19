@@ -1,7 +1,7 @@
 package net.htlgkr.fuerederl21025.musicmanagment.controllers;
 
-import net.htlgkr.fuerederl21025.musicmanagment.dtos.UrlDto;
-import net.htlgkr.fuerederl21025.musicmanagment.entities.Url;
+import net.htlgkr.fuerederl21025.musicmanagment.dtos.incoming.post.UrlPostDto;
+import net.htlgkr.fuerederl21025.musicmanagment.dtos.outgoing.response.UrlResponseDto;
 import net.htlgkr.fuerederl21025.musicmanagment.services.MimeService;
 import net.htlgkr.fuerederl21025.musicmanagment.services.TrackService;
 import net.htlgkr.fuerederl21025.musicmanagment.services.UrlService;
@@ -20,43 +20,33 @@ public class UrlRestController {
     @Autowired
     TrackService trackService;
     @PostMapping("/")
-    public UrlDto createUrl(@RequestBody UrlDto urlDto) {
-        Url url = new Url();
-        url.setUrlTo(urlDto.url());
-        url.setTrack(trackService.getTrackById(urlDto.track()));
-        url.setMime(mimeService.getMimeById(urlDto.mime()));
-        url.setUrlTo(urlDto.url());
-        return new UrlDto(urlService.saveUrl(url));
+    public UrlResponseDto createUrl(@RequestBody UrlPostDto urlResponseDto) {
+        return null;
     }
     @PutMapping("/{id}")
-    public UrlDto updateUrl(@PathVariable int id, @RequestBody UrlDto urlDto) {
-        Url url = urlService.getUrlById(id);
-        url.setUrlTo(urlDto.url());
-        url.setTrack(trackService.getTrackById(urlDto.track()));
-        url.setMime(mimeService.getMimeById(urlDto.mime()));
-        url.setUrlTo(urlDto.url());
-        return new UrlDto(urlService.saveUrl(url));
+    public UrlResponseDto updateUrl(@PathVariable int id, @RequestBody UrlPostDto urlResponseDto) {
+        return null;
     }
     @GetMapping("/{id}")
-    public UrlDto getUrl(@PathVariable int id) {
-        return new UrlDto(urlService.getUrlById(id));
+    public UrlResponseDto getUrl(@PathVariable int id) {
+        return null;
     }
     @DeleteMapping("/{id}")
-    public UrlDto deleteUrl(@PathVariable int id) {
-        UrlDto urlDto = new UrlDto(urlService.getUrlById(id));
-        urlService.deleteUrl(id);
-        return urlDto;
+    public UrlResponseDto deleteUrl(@PathVariable int id) {
+        return null;
     }
     @GetMapping("/")
-    public List<UrlDto> getAllUrls(@RequestParam(required = false) Integer mimeId, @RequestParam(required = false) Integer trackId) {
-        if (mimeId == null && trackId == null) {
-            return urlService.getAllUrls().stream().map(UrlDto::new).toList();
-        } else if (mimeId == null) {
-            return urlService.getUrlsAssociatedWithTrack(trackService.getTrackById(trackId)).stream().map(UrlDto::new).toList();
-        } else if (trackId == null) {
-            return urlService.getUrlsUsingMimeType(mimeService.getMimeById(mimeId)).stream().map(UrlDto::new).toList();
-        } else {
-            return urlService.getUrlsAssociatedWithTrackAndUsingMime(trackService.getTrackById(trackId), mimeService.getMimeById(mimeId)).stream().map(UrlDto::new).toList();
+    public List<UrlResponseDto> getAllUrls() {
+        return null;
+    }
+    @GetMapping("/search")
+    public List<UrlResponseDto> getAllUrlsMatchingCriteria(@RequestParam(required = false) Integer mimeId, @RequestParam(required = false) Integer trackId) {
+        if (mimeId != null) {
+            return null;
         }
+        if (trackId != null) {
+            return null;
+        }
+        return null;
     }
 }

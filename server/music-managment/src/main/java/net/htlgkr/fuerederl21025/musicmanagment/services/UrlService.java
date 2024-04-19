@@ -1,5 +1,6 @@
 package net.htlgkr.fuerederl21025.musicmanagment.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import net.htlgkr.fuerederl21025.musicmanagment.entities.Mime;
 import net.htlgkr.fuerederl21025.musicmanagment.entities.Track;
 import net.htlgkr.fuerederl21025.musicmanagment.entities.Url;
@@ -7,6 +8,7 @@ import net.htlgkr.fuerederl21025.musicmanagment.errormessages.ErrorMessages;
 import net.htlgkr.fuerederl21025.musicmanagment.repositories.URLRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -16,15 +18,13 @@ import java.util.List;
 public class UrlService {
     @Autowired
     private URLRepository urlRepository;
-    public Url saveUrl(Url url) {
-        if (url == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_REQUEST_MESSAGE);
-        if (url.getUrlTo() == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_VALUE_MESSAGE);
+    public Url saveUrl(@NonNull Url url) {
+        if (url.getUrlTo() == null) throw new IllegalArgumentException();
         return urlRepository.save(url);
     }
     public Url getUrlById(int id) {
-        Url toGet = urlRepository.findById(id).orElse(null);
-        if (toGet == null) throw new ResponseStatusException(HttpStatusCode.valueOf(404), ErrorMessages.DOES_NOT_EXIST_MESSAGE);
-        return toGet;
+        if (urlRepository.findById(id).isEmpty()) throw new EntityNotFoundException();
+        return urlRepository.findById(id).get();
     }
     public void deleteUrl(int id) {
         urlRepository.deleteById(id);
@@ -32,16 +32,13 @@ public class UrlService {
     public List<Url> getAllUrls() {
         return urlRepository.findAll();
     }
-    public List<Url> getUrlsUsingMimeType(Mime mime) {
-        if (mime == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_REQUEST_MESSAGE);
+    public List<Url> getUrlsUsingMimeType(@NonNull Mime mime) {
         return urlRepository.findByMime(mime);
     }
-    public List<Url> getUrlsAssociatedWithTrack(Track track) {
-        if (track == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_REQUEST_MESSAGE);
+    public List<Url> getUrlsAssociatedWithTrack(@NonNull Track track) {
         return urlRepository.findByTrack(track);
     }
-    public List<Url> getUrlsAssociatedWithTrackAndUsingMime(Track track, Mime mime) {
-        if (track == null || mime == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
+    public List<Url> getUrlsAssociatedWithTrackAndUsingMime(@NonNull Track track, @NonNull Mime mime) {
         return urlRepository.findByTrackAndMime(track, mime);
     }
 }

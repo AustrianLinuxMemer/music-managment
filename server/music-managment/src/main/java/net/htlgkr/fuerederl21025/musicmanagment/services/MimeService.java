@@ -1,10 +1,13 @@
 package net.htlgkr.fuerederl21025.musicmanagment.services;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import net.htlgkr.fuerederl21025.musicmanagment.entities.Mime;
 import net.htlgkr.fuerederl21025.musicmanagment.errormessages.ErrorMessages;
 import net.htlgkr.fuerederl21025.musicmanagment.repositories.MimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,25 +17,26 @@ import java.util.List;
 public class MimeService {
     @Autowired
     private MimeRepository mimeRepository;
-    public Mime saveMime(Mime mime) {
-        if (mime == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_REQUEST_MESSAGE);
-        if (mime.getMime() == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_VALUE_MESSAGE);
-        if (mimeRepository.findByMime(mime.getMime()).isPresent()) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.ALREADY_EXISTS_MESSAGE);
+    public Mime createMime(@NonNull Mime mime) {
+        if (mime.getMime() == null) throw new IllegalArgumentException();
+        if (mimeRepository.findByMime(mime.getMime()).isPresent()) throw new EntityExistsException();
+        return mimeRepository.save(mime);
+    }
+    public Mime saveMime(@NonNull Mime mime) {
+        if (mime.getMime() == null) throw new IllegalArgumentException();
+        if (mimeRepository.findByMime(mime.getMime()).isPresent()) throw new EntityExistsException();
         return mimeRepository.save(mime);
     }
     public Mime getMimeById(int id) {
-        Mime toGet = mimeRepository.findById(id).orElse(null);
-        if (toGet == null) throw new ResponseStatusException(HttpStatusCode.valueOf(404), ErrorMessages.DOES_NOT_EXIST_MESSAGE);
-        return toGet;
+        if (mimeRepository.findById(id).isEmpty()) throw new EntityNotFoundException();
+        return mimeRepository.findById(id).get();
     }
     public void deleteMimeById(int id) {
         mimeRepository.deleteById(id);
     }
-    public Mime getMimeMatching(String mime) {
-        if (mime == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_REQUEST_MESSAGE);
-        Mime toTest = mimeRepository.findByMime(mime).orElse(null);
-        if (toTest == null) throw new ResponseStatusException(HttpStatusCode.valueOf(404), ErrorMessages.DOES_NOT_EXIST_MESSAGE);
-        return toTest;
+    public Mime getMimeMatching(@NonNull String mime) {
+        if (mimeRepository.findByMime(mime).isEmpty()) throw new EntityNotFoundException();
+        return mimeRepository.findByMime(mime).get();
     }
     public List<Mime> getAllMime() {
         return mimeRepository.findAll();
