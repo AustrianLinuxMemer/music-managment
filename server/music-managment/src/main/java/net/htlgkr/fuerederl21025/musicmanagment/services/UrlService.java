@@ -3,6 +3,7 @@ package net.htlgkr.fuerederl21025.musicmanagment.services;
 import net.htlgkr.fuerederl21025.musicmanagment.entities.Mime;
 import net.htlgkr.fuerederl21025.musicmanagment.entities.Track;
 import net.htlgkr.fuerederl21025.musicmanagment.entities.Url;
+import net.htlgkr.fuerederl21025.musicmanagment.errormessages.ErrorMessages;
 import net.htlgkr.fuerederl21025.musicmanagment.repositories.URLRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -16,12 +17,13 @@ public class UrlService {
     @Autowired
     private URLRepository urlRepository;
     public Url saveUrl(Url url) {
-        if (url == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
+        if (url == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_REQUEST_MESSAGE);
+        if (url.getUrlTo() == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_VALUE_MESSAGE);
         return urlRepository.save(url);
     }
     public Url getUrlById(int id) {
         Url toGet = urlRepository.findById(id).orElse(null);
-        if (toGet == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
+        if (toGet == null) throw new ResponseStatusException(HttpStatusCode.valueOf(404), ErrorMessages.DOES_NOT_EXIST_MESSAGE);
         return toGet;
     }
     public void deleteUrl(int id) {
@@ -31,11 +33,11 @@ public class UrlService {
         return urlRepository.findAll();
     }
     public List<Url> getUrlsUsingMimeType(Mime mime) {
-        if (mime == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
+        if (mime == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_REQUEST_MESSAGE);
         return urlRepository.findByMime(mime);
     }
     public List<Url> getUrlsAssociatedWithTrack(Track track) {
-        if (track == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
+        if (track == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400), ErrorMessages.NULL_REQUEST_MESSAGE);
         return urlRepository.findByTrack(track);
     }
     public List<Url> getUrlsAssociatedWithTrackAndUsingMime(Track track, Mime mime) {

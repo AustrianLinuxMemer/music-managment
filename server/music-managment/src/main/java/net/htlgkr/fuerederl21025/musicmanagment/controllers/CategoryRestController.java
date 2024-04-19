@@ -5,9 +5,12 @@ import net.htlgkr.fuerederl21025.musicmanagment.entities.Category;
 import net.htlgkr.fuerederl21025.musicmanagment.services.CategoryService;
 import net.htlgkr.fuerederl21025.musicmanagment.services.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -40,9 +43,9 @@ public class CategoryRestController {
         categoryService.deleteCategoryById(id);
         return categoryDto;
     }
-    @GetMapping("/search")
-    public List<CategoryDto> getAllCategoriesLike(@RequestParam String name) {
-        return categoryService.getAllCategoriesNamedLike(name).stream().map(CategoryDto::new).toList();
+    @GetMapping("/{name}")
+    public CategoryDto getCategoryByName(@PathVariable String name) {
+        return new CategoryDto(categoryService.getCategoryNamed(name));
     }
     @GetMapping("/all")
     public List<CategoryDto> getAllCategories() {

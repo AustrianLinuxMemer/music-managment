@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import net.htlgkr.fuerederl21025.musicmanagment.dtos.MimeDto;
+import net.htlgkr.fuerederl21025.musicmanagment.errormessages.ErrorMessages;
 import org.springframework.util.InvalidMimeTypeException;
 
 @Entity
@@ -35,7 +36,7 @@ public class Mime {
         return mime;
     }
     public void setMime(String mime) {
-        if (!isValidMimeString(mime)) throw new InvalidMimeTypeException(mime, "The provided Multipurpose Media Extension string violates the Regex: " + MIME_REGEX);
+        if (!isValidMimeString(mime)) throw new InvalidMimeTypeException(mime, ErrorMessages.INVALID_MIME_MESSAGE);
         this.mime = mime;
     }
 

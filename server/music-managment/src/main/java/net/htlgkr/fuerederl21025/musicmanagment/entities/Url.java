@@ -11,6 +11,7 @@ public class Url {
     private Mime mime;
     @ManyToOne
     private Track track;
+    @Column(nullable = false)
     private String urlTo;
 
     public Url() {
