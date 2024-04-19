@@ -1,4 +1,6 @@
 package net.htlgkr.fuerederl21025.musicmanagment.dtos.incoming.put;
 
-public record UrlPutDto(String url, Integer mime, Integer track) {
+import org.springframework.lang.NonNull;
+
+public record UrlPutDto(@NonNull String url, @NonNull Integer mime, @NonNull Integer track) {
 }
