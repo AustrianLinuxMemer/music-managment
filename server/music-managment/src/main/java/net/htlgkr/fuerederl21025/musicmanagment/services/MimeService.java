@@ -15,12 +15,11 @@ public class MimeService {
     @Autowired
     private MimeRepository mimeRepository;
     public Mime createMime(@NonNull Mime mime) {
-        if (mimeRepository.findByMime(mime.getMime()).isPresent()) throw new EntityExistsException();
+        if (mimeRepository.existsByName(mime.getName())) throw new EntityExistsException();
         return mimeRepository.save(mime);
     }
     public Mime saveMime(@NonNull Mime mime) {
-        if (mime.getMime() == null) throw new IllegalArgumentException();
-        if (mimeRepository.findByMime(mime.getMime()).isPresent()) throw new EntityExistsException();
+        //if (mimeRepository.existsByName(mime.getName())) throw new EntityExistsException();
         return mimeRepository.save(mime);
     }
     public Mime getMimeById(int id) {
@@ -28,11 +27,12 @@ public class MimeService {
         return mimeRepository.findById(id).get();
     }
     public void deleteMimeById(int id) {
+        if (!mimeRepository.existsById(id)) throw new EntityNotFoundException();
         mimeRepository.deleteById(id);
     }
     public Mime getMimeMatching(@NonNull String mime) {
-        if (mimeRepository.findByMime(mime).isEmpty()) throw new EntityNotFoundException();
-        return mimeRepository.findByMime(mime).get();
+        if (mimeRepository.findByName(mime).isEmpty()) throw new EntityNotFoundException();
+        return mimeRepository.findByName(mime).get();
     }
     public List<Mime> getAllMime() {
         return mimeRepository.findAll();

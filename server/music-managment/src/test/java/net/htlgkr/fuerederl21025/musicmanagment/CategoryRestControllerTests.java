@@ -87,7 +87,7 @@ public class CategoryRestControllerTests {
         int id = categoryResponseDto.id();
         CategoryPutDto categoryPutDto = new CategoryPutDto("Pop", assertedListOfTracks);
         CategoryResponseDto categoryResponseDto1 = categoryRestController.updateCategory(id, categoryPutDto);
-        assert categoryResponseDto.name().equals(categoryResponseDto1.name());
+        assert !categoryResponseDto.name().equals(categoryResponseDto1.name());
     }
     @Test
     void updatingCategoryWithNullInstance() {

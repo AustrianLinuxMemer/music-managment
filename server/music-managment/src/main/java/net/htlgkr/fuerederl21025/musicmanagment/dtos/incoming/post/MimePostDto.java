@@ -4,9 +4,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.function.Consumer;
 
-public record MimePostDto(String mime) implements Consumer<ResponseStatusException> {
+public record MimePostDto(String name) implements Consumer<ResponseStatusException> {
     @Override
     public void accept(ResponseStatusException e) {
-        if (mime == null) throw e;
+        if (name == null) throw e;
     }
 }

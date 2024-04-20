@@ -20,7 +20,7 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
     public Category saveCategory(@NonNull Category category) {
-        if (categoryRepository.findByName(category.getName()).isPresent()) throw new EntityExistsException();
+        //if (categoryRepository.findByName(category.getName()).isPresent()) throw new EntityExistsException();
         return categoryRepository.save(category);
     }
     public Category getCategoryById(int id) {

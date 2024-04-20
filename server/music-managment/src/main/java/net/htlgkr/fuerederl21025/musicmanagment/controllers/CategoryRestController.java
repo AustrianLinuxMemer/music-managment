@@ -11,6 +11,7 @@ import net.htlgkr.fuerederl21025.musicmanagment.services.CategoryService;
 import net.htlgkr.fuerederl21025.musicmanagment.services.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -43,22 +44,16 @@ public class CategoryRestController {
     public CategoryResponseDto updateCategory(@PathVariable int id, @RequestBody CategoryPutDto categoryPutDto) {
         if (categoryPutDto == null) throw ResponseStatusExceptions.NULL_REQUEST_BODY.get();
         categoryPutDto.accept(ResponseStatusExceptions.NULL_VALUE.get());
-        Category category;
         try {
-            category = categoryService.getCategoryById(id);
+            Category category = categoryService.getCategoryById(id);
+            if (category.getName().equals(categoryPutDto.name())) throw new EntityExistsException();
+            category.setName(categoryPutDto.name());
+            return CategoryResponseDto.generateNewCategoryResponseDto(categoryService.saveCategory(category));
         } catch (EntityNotFoundException e) {
             throw ResponseStatusExceptions.NOT_FOUND.get();
+        } catch (EntityExistsException e) {
+            throw ResponseStatusExceptions.ALREADY_EXISTS.get();
         }
-
-        category.setName(categoryPutDto.name());
-        category.setTracks(categoryPutDto.associatedTracks().stream().map(x -> {
-            try {
-                return trackService.getTrackById(x);
-            } catch (EntityNotFoundException e) {
-                throw ResponseStatusExceptions.NOT_FOUND.get();
-            }
-        }).filter(Objects::nonNull).toList());
-        return CategoryResponseDto.generateNewCategoryResponseDto(categoryService.saveCategory(category));
     }
     @GetMapping("/{id}")
     public CategoryResponseDto getCategory(@PathVariable int id) {

@@ -15,13 +15,13 @@ public class Mime {
     @GeneratedValue
     private Integer id;
     @Column(unique = true, nullable = false)
-    private String mime;
+    private String name;
 
     public Mime() {
     }
     public Mime(MimeResponseDto mimeResponseDto) {
         this.id = mimeResponseDto.id();
-        this.mime = mimeResponseDto.mime();
+        this.name = mimeResponseDto.name();
     }
 
     public Integer getId() {
@@ -32,12 +32,12 @@ public class Mime {
         this.id = id;
     }
 
-    public String getMime() {
-        return mime;
+    public String getName() {
+        return name;
     }
-    public void setMime(String mime) {
-        if (!isValidMimeString(mime)) throw new InvalidMimeTypeException(mime, ErrorMessages.INVALID_MIME_MESSAGE.toString());
-        this.mime = mime;
+    public void setName(String name) {
+        if (!isValidMimeString(name)) throw new InvalidMimeTypeException(name, ErrorMessages.INVALID_MIME_MESSAGE.toString());
+        this.name = name;
     }
 
     public static boolean isValidMimeString(String string) {
@@ -46,6 +46,6 @@ public class Mime {
 
     @Override
     public String toString() {
-        return this.getMime();
+        return this.getName();
     }
 }
