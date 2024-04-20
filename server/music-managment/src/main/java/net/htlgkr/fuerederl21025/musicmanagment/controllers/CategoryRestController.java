@@ -1,14 +1,19 @@
 package net.htlgkr.fuerederl21025.musicmanagment.controllers;
 
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import net.htlgkr.fuerederl21025.musicmanagment.dtos.incoming.post.CategoryPostDto;
 import net.htlgkr.fuerederl21025.musicmanagment.dtos.incoming.put.CategoryPutDto;
 import net.htlgkr.fuerederl21025.musicmanagment.dtos.outgoing.response.CategoryResponseDto;
+import net.htlgkr.fuerederl21025.musicmanagment.entities.Category;
+import net.htlgkr.fuerederl21025.musicmanagment.prepared.exceptions.ResponseStatusExceptions;
 import net.htlgkr.fuerederl21025.musicmanagment.services.CategoryService;
 import net.htlgkr.fuerederl21025.musicmanagment.services.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -18,16 +23,50 @@ public class CategoryRestController {
     @Autowired
     private TrackService trackService;
     @PostMapping("/")
-    public CategoryResponseDto createCategory(@RequestBody CategoryPostDto categoryResponseDto) {
-        return null;
+    public CategoryResponseDto createCategory(@RequestBody CategoryPostDto categoryPostDto) {
+        if (categoryPostDto == null) throw ResponseStatusExceptions.NULL_REQUEST_BODY.get();
+        categoryPostDto.accept(ResponseStatusExceptions.NULL_VALUE.get());
+        Category category = new Category();
+        category.setName(categoryPostDto.name());
+        if (categoryPostDto.associatedTracks() != null) {
+            category.setTracks(trackService.getAllTracksByIds(categoryPostDto.associatedTracks()));
+        } else {
+            category.setTracks(null);
+        }
+        try {
+            return CategoryResponseDto.generateNewCategoryResponseDto(categoryService.createCategory(category));
+        } catch (EntityExistsException e) {
+            throw ResponseStatusExceptions.ALREADY_EXISTS.get();
+        }
     }
     @PutMapping("/{id}")
-    public CategoryResponseDto updateCategory(@PathVariable int id, @RequestBody CategoryPutDto categoryResponseDto) {
-        return null;
+    public CategoryResponseDto updateCategory(@PathVariable int id, @RequestBody CategoryPutDto categoryPutDto) {
+        if (categoryPutDto == null) throw ResponseStatusExceptions.NULL_REQUEST_BODY.get();
+        categoryPutDto.accept(ResponseStatusExceptions.NULL_VALUE.get());
+        Category category;
+        try {
+            category = categoryService.getCategoryById(id);
+        } catch (EntityNotFoundException e) {
+            throw ResponseStatusExceptions.NOT_FOUND.get();
+        }
+
+        category.setName(categoryPutDto.name());
+        category.setTracks(categoryPutDto.associatedTracks().stream().map(x -> {
+            try {
+                return trackService.getTrackById(x);
+            } catch (EntityNotFoundException e) {
+                throw ResponseStatusExceptions.NOT_FOUND.get();
+            }
+        }).filter(Objects::nonNull).toList());
+        return CategoryResponseDto.generateNewCategoryResponseDto(categoryService.saveCategory(category));
     }
     @GetMapping("/{id}")
     public CategoryResponseDto getCategory(@PathVariable int id) {
-        return null;
+        try {
+            return CategoryResponseDto.generateNewCategoryResponseDto(categoryService.getCategoryById(id));
+        } catch (EntityNotFoundException e) {
+            throw ResponseStatusExceptions.NOT_FOUND.get();
+        }
     }
     @DeleteMapping("/{id}")
     public CategoryResponseDto deleteCategory(@PathVariable int id) {
@@ -39,6 +78,6 @@ public class CategoryRestController {
     }
     @GetMapping("/all")
     public List<CategoryResponseDto> getAllCategories() {
-        return null;
+        return categoryService.getAllCategories().stream().map(CategoryResponseDto::generateNewCategoryResponseDto).toList();
     }
 }

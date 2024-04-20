@@ -3,13 +3,10 @@ package net.htlgkr.fuerederl21025.musicmanagment.services;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import net.htlgkr.fuerederl21025.musicmanagment.entities.Mime;
-import net.htlgkr.fuerederl21025.musicmanagment.errormessages.ErrorMessages;
 import net.htlgkr.fuerederl21025.musicmanagment.repositories.MimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -18,7 +15,6 @@ public class MimeService {
     @Autowired
     private MimeRepository mimeRepository;
     public Mime createMime(@NonNull Mime mime) {
-        if (mime.getMime() == null) throw new IllegalArgumentException();
         if (mimeRepository.findByMime(mime.getMime()).isPresent()) throw new EntityExistsException();
         return mimeRepository.save(mime);
     }

@@ -14,11 +14,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class MusicManagementApplicationTests {
+class MimeValidationTests {
 
-	@Test
-	void contextLoads() {
-	}
+
 	@Test
 	void doesMimeCheckRecognizeMimesInIanaList() {
 		//Read the File
@@ -45,7 +43,4 @@ class MusicManagementApplicationTests {
 			assertFalse(Mime.isValidMimeString(string));
 		});
 	}
-	/*
-
-	 */
 }

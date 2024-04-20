@@ -4,13 +4,10 @@ import jakarta.persistence.EntityNotFoundException;
 import net.htlgkr.fuerederl21025.musicmanagment.entities.Mime;
 import net.htlgkr.fuerederl21025.musicmanagment.entities.Track;
 import net.htlgkr.fuerederl21025.musicmanagment.entities.Url;
-import net.htlgkr.fuerederl21025.musicmanagment.errormessages.ErrorMessages;
 import net.htlgkr.fuerederl21025.musicmanagment.repositories.URLRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
