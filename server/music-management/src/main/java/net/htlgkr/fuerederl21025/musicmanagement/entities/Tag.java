@@ -1,22 +1,21 @@
 package net.htlgkr.fuerederl21025.musicmanagement.entities;
 
 import jakarta.persistence.*;
+
 import java.util.Map;
 import java.util.Set;
 
 @Entity
-public class Track {
+public class Tag {
     @Id
     @GeneratedValue
     private int id;
-    private String name;
-    @OneToMany
-    private Set<URL> urls;
     @ManyToMany
-    private Set<Tag> tags;
+    private Set<Track> tracks;
+    private String name;
     @ElementCollection
     private Map<String, String> individualMetadata;
-    public Track(){}
+    public Tag(){}
 
     public int getId() {
         return id;
@@ -24,6 +23,14 @@ public class Track {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Set<Track> getTracks() {
+        return tracks;
+    }
+
+    public void setTracks(Set<Track> tracks) {
+        this.tracks = tracks;
     }
 
     public String getName() {

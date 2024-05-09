@@ -1,7 +1,7 @@
 package net.htlgkr.fuerederl21025.musicmanagement.services;
 
 import net.htlgkr.fuerederl21025.musicmanagement.entities.Track;
-import net.htlgkr.fuerederl21025.musicmanagement.repository.TrackRepository;
+import net.htlgkr.fuerederl21025.musicmanagement.repositories.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
