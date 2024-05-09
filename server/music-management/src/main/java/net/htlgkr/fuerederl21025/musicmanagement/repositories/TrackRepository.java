@@ -1,8 +1,6 @@
 package net.htlgkr.fuerederl21025.musicmanagement.repositories;
 
-import net.htlgkr.fuerederl21025.musicmanagement.entities.Tag;
 import net.htlgkr.fuerederl21025.musicmanagement.entities.Track;
-import net.htlgkr.fuerederl21025.musicmanagement.entities.URL;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.data.repository.query.Param;

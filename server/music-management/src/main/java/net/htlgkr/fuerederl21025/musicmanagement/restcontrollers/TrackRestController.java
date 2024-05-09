@@ -1,36 +1,43 @@
 package net.htlgkr.fuerederl21025.musicmanagement.restcontrollers;
 
+import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractRestController.AbstractCrudRestController;
+import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService.AbstractCrudService;
 import net.htlgkr.fuerederl21025.musicmanagement.entities.Track;
-import net.htlgkr.fuerederl21025.musicmanagement.services.TrackService;
-import org.springframework.beans.factory.annotation.Autowired;
+import net.htlgkr.fuerederl21025.musicmanagement.repositories.TrackRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/tracks")
-public class TrackRestController {
-    @Autowired
-    private TrackService trackService;
+public class TrackRestController extends AbstractCrudRestController<Track, Integer, AbstractCrudService<Track, Integer, TrackRepository>> {
+    @Override
     @PostMapping("/")
-    public Track addTrack(@RequestBody Track track) {
-        return trackService.addTrack(track);
+    public Track add(@RequestBody Track item) {
+        return super.add(item);
     }
-    @GetMapping("/all")
-    public List<Track> getAllTracks() {
-        return trackService.getAllTracks();
-    }
-    @GetMapping("/{id}")
-    public Track getTrackById(@PathVariable int id) {
-        return trackService.getTrackById(id);
-    }
+
+    @Override
     @PutMapping("/{id}")
-    public Track replaceTrack(@PathVariable int id, @RequestBody Track newTrack) {
-        trackService.deleteTrack(id);
-        return trackService.addTrack(newTrack);
+    public Track update(@RequestBody Track newItem, @PathVariable Integer id) {
+        return super.update(newItem, id);
     }
+
+    @Override
+    @GetMapping("/{id}")
+    public Track getById(@PathVariable Integer id) {
+        return super.getById(id);
+    }
+
+    @Override
+    @GetMapping("/")
+    public List<Track> getAll() {
+        return super.getAll();
+    }
+
+    @Override
     @DeleteMapping("/{id}")
-    public Track deleteTrack(@PathVariable int id) {
-        return trackService.deleteTrack(id);
+    public Track deleteById(Integer id) {
+        return super.deleteById(id);
     }
 }
