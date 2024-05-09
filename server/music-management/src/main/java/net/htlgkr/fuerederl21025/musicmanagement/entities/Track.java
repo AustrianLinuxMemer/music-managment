@@ -9,6 +9,7 @@ public class Track {
     @Id
     @GeneratedValue
     private int id;
+    @Column(nullable = false)
     private String name;
     @OneToMany
     private Set<URL> urls;

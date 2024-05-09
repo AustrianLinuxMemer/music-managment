@@ -1,9 +1,6 @@
 package net.htlgkr.fuerederl21025.musicmanagement.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import org.springframework.util.InvalidMimeTypeException;
 
 import java.util.function.Predicate;
@@ -14,7 +11,9 @@ public class URL {
     @Id
     @GeneratedValue
     private int id;
+    @Column(nullable = false)
     private String url;
+    @Column(nullable = false)
     private String mimeType;
     @ManyToOne
     private Track belongingTo;

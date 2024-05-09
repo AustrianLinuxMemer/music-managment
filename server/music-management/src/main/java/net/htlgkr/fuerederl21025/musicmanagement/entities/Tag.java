@@ -12,6 +12,7 @@ public class Tag {
     private int id;
     @ManyToMany
     private Set<Track> tracks;
+    @Column(unique = true, nullable = false)
     private String name;
     @ElementCollection
     private Map<String, String> individualMetadata;
