@@ -29,7 +29,7 @@ public abstract class AbstractCrudRestController<T extends BaseEntity<ID>, ID, S
      */
     @Autowired
     protected S service;
-    public T add(T item) {
+    public T saveNew(T item) {
         try {
             return service.save(item);
         } catch (NullPointerException e) {

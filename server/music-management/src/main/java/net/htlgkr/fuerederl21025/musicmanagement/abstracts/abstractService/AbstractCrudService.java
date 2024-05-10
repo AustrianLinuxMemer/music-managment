@@ -31,20 +31,21 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
     protected R listCrudRepository;
 
     /**
-     * This method saves entities into the Repository
+     * This method saves entities that don't yet exist into the Repository
      * @param item Entity to be saved into the Repository
      * @return Entity that was saved into the Repository
-     * @throws ResponseStatusException Is thrown when item is <code>null</code>
+     * @throws ResponseStatusException Is thrown with when item is <code>null</code> ({@link HttpStatusCode} 400) and/or
+     * when the entity already exists in the repository ({@link HttpStatusCode} 409)
+     * repository
      */
 
     public T save(@NonNull T item) {
         try {
             return listCrudRepository.save(item);
-        } catch (InvalidDataAccessApiUsageException e){
+        } catch (InvalidDataAccessApiUsageException e) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
         }
     }
-
     /**
      * Retrieves a {@link List<T>} of all entities found in the repository
      * @return A list of all entities found in the repository

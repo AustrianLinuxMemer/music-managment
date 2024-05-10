@@ -32,17 +32,30 @@ import static org.junit.jupiter.api.Assertions.*;
 @Rollback
 @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
 public class AbstractCrudServiceWithDummyEntityThatHasDefaultFieldConstraintsTest {
+
     @Autowired
     DummyService dummyService;
+
+    final String value = "value";
+    final List<String> values = List.of("value1", "value2", "value3");
     @Test
     void addEntity() {
-        DummyEntity dummyEntity = new DummyEntity("value");
+        DummyEntity dummyEntity = new DummyEntity(value);
         DummyEntity dummyEntity2 = dummyService.save(dummyEntity);
-        assertEquals(dummyEntity.field, dummyEntity2.field);
+        assertEquals(value, dummyEntity2.field);
     }
     @Test
     void addNull() {
         assertThrows(ResponseStatusException.class, () -> dummyService.save(null));
+    }
+    @Test
+    void addEntityThatAlreadyExists() {
+        DummyEntity dummyEntity = new DummyEntity(value);
+        DummyEntity dummyEntity2 = dummyService.save(dummyEntity);
+        String value2 = "value2";
+        DummyEntity dummyEntity3 = dummyService.save(new DummyEntity(dummyEntity2.id, value2));
+        assertNotEquals(value, dummyEntity3.field);
+        assertEquals(value2, dummyEntity2.field);
     }
     @Test
     void addNullValuedEntity() {
@@ -52,7 +65,7 @@ public class AbstractCrudServiceWithDummyEntityThatHasDefaultFieldConstraintsTes
     }
     @Test
     void entityExists() {
-        DummyEntity dummyEntity = new DummyEntity("value");
+        DummyEntity dummyEntity = new DummyEntity(value);
         DummyEntity dummyEntity2 = dummyService.save(dummyEntity);
         assertTrue(dummyService.existsById(dummyEntity2.id));
     }
@@ -62,10 +75,10 @@ public class AbstractCrudServiceWithDummyEntityThatHasDefaultFieldConstraintsTes
     }
     @Test
     void getEntityThatExists() {
-        DummyEntity dummyEntity = new DummyEntity("value");
+        DummyEntity dummyEntity = new DummyEntity(value);
         DummyEntity dummyEntity2 = dummyService.save(dummyEntity);
         DummyEntity dummyEntity3 = dummyService.getById(dummyEntity2.id);
-        assertEquals(dummyEntity.field, dummyEntity3.field);
+        assertEquals(value, dummyEntity3.field);
     }
     @Test
     void getEntityThatDoesNotExist() {
@@ -73,7 +86,7 @@ public class AbstractCrudServiceWithDummyEntityThatHasDefaultFieldConstraintsTes
     }
     @Test
     void removeEntityThatExists() {
-        DummyEntity dummyEntity = new DummyEntity("value");
+        DummyEntity dummyEntity = new DummyEntity(value);
         DummyEntity dummyEntity2 = dummyService.save(dummyEntity);
         dummyService.deleteById(dummyEntity2.id);
         assertFalse(dummyService.existsById(dummyEntity.id));
@@ -84,21 +97,20 @@ public class AbstractCrudServiceWithDummyEntityThatHasDefaultFieldConstraintsTes
     }
     @Test
     void getAllEntities() {
-        List<DummyEntity> entities = List.of(new DummyEntity("value1"), new DummyEntity("value2"), new DummyEntity("value3"));
+        List<DummyEntity> entities = List.of(new DummyEntity(values.get(0)), new DummyEntity(values.get(1)), new DummyEntity(values.get(2)));
         dummyService.save(entities.get(0));
         dummyService.save(entities.get(1));
         dummyService.save(entities.get(2));
         List<DummyEntity> entities2 = dummyService.getAll();
-        assertIterableEquals(entities.stream().map(x -> x.field).toList(), entities2.stream().map(x -> x.field).toList());
+        assertIterableEquals(values, entities2.stream().map(x -> x.field).toList());
     }
     @Test
     void retainOrderOfSaving() {
-        List<DummyEntity> entities = List.of(new DummyEntity("value1"), new DummyEntity("value2"), new DummyEntity("value3"));
+        List<DummyEntity> entities = List.of(new DummyEntity(values.get(0)), new DummyEntity(values.get(1)), new DummyEntity(values.get(2)));
         dummyService.save(entities.get(2));
         dummyService.save(entities.get(0));
         dummyService.save(entities.get(1));
-        entities = List.of(entities.get(2), entities.get(0), entities.get(1));
-        List<DummyEntity> entities2 = dummyService.getAll();
-        assertIterableEquals(entities.stream().map(x -> x.field).toList(), entities2.stream().map(x -> x.field).toList());
+        List<String> newValues = List.of(values.get(2), values.get(0), values.get(1));
+        assertIterableEquals(newValues, dummyService.getAll().stream().map(x -> x.field).toList());
     }
 }

@@ -15,8 +15,8 @@ import java.util.Set;
 public class TrackRestController extends AbstractCrudRestController<Track, Integer, TrackService> {
     @Override
     @PostMapping("/")
-    public Track add(@RequestBody Track item) {
-        return super.add(item);
+    public Track saveNew(@RequestBody Track item) {
+        return super.saveNew(item);
     }
 
     @Override

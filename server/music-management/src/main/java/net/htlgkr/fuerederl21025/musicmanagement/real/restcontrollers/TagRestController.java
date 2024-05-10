@@ -11,8 +11,8 @@ import java.util.List;
 public class TagRestController extends AbstractCrudRestController<Tag, String, TagService> {
     @Override
     @PostMapping("/")
-    public Tag add(@RequestBody Tag item) {
-        return super.add(item);
+    public Tag saveNew(@RequestBody Tag item) {
+        return super.saveNew(item);
     }
 
     @Override
