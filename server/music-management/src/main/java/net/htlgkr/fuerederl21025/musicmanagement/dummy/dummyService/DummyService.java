@@ -4,6 +4,7 @@ import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService.Abstr
 import net.htlgkr.fuerederl21025.musicmanagement.dummy.dummyEntity.DummyEntity;
 import net.htlgkr.fuerederl21025.musicmanagement.dummy.dummyRepository.DummyRepository;
 import org.springframework.data.repository.ListCrudRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 /**
  * This interface is the DummyRepository's service class, separated into it's own file so that

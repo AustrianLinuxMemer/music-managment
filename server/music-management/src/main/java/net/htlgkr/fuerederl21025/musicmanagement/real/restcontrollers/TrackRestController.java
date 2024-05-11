@@ -45,7 +45,7 @@ public class TrackRestController extends AbstractCrudRestController<Track, Integ
     @GetMapping("/tag?{tags}=")
     public List<Track> getAllTracksTaggedWith(@RequestParam Set<String> tags) {
         try {
-            return service.getAllTracksTaggedWith(tags);
+            return service.getAllTracksHavingSetThatContains(tags);
         } catch (NullPointerException e) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
         }

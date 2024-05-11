@@ -10,7 +10,7 @@ import java.util.Set;
 
 public interface TrackRepository extends ListCrudRepository<Track, Integer> {
     @Query("SELECT DISTINCT t FROM Track t JOIN t.tags tag WHERE tag.id IN :tagSet")
-    List<Track> findAllTracksTaggedWith(@Param("tagSet") Set<String> tags);
+    List<Track> findAllTracksHavingSetThatContains(@Param("tagSet") Set<String> tags);
     @Query("SELECT DISTINCT t FROM Track t WHERE KEY(t.metadata) = :queriedKey AND VALUE(t.metadata) = :queriedValue")
     List<Track> findAllTracksHavingKeyValuePair(@Param("queriedKey") String key, @Param("queriedValue") String value);
 }

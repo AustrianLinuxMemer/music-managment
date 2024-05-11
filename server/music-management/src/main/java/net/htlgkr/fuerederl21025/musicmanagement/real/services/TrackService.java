@@ -11,8 +11,8 @@ import java.util.Set;
 
 @Service
 public class TrackService extends AbstractCrudService<Track, Integer, TrackRepository> {
-    public List<Track> getAllTracksTaggedWith(@NonNull Set<String> tags) {
-        return listCrudRepository.findAllTracksTaggedWith(tags);
+    public List<Track> getAllTracksHavingSetThatContains(@NonNull Set<String> tags) {
+        return listCrudRepository.findAllTracksHavingSetThatContains(tags);
     }
     public List<Track> getAllTracksWithKeyValuePair(@NonNull String key, String value) {
         return listCrudRepository.findAllTracksHavingKeyValuePair(key, value);
