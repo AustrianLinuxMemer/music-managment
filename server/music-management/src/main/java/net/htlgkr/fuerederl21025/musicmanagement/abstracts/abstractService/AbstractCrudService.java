@@ -40,6 +40,8 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
      */
 
     public T save(@NonNull T item) {
+        if (item == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
+        if (item.id != null && existsById(item.id)) throw new ResponseStatusException(HttpStatusCode.valueOf(409), "Entity already exists in the database, use replace instead");
         try {
             return listCrudRepository.save(item);
         } catch (InvalidDataAccessApiUsageException e) {
@@ -61,6 +63,7 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
      * @throws ResponseStatusException if no entity is found having this <code>id</code>
      */
     public T getById(@NonNull ID id) {
+        if (id == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
         T maybeItem = listCrudRepository.findById(id).orElse(null);
         if (maybeItem == null) throw new ResponseStatusException(HttpStatusCode.valueOf(404));
         return maybeItem;
@@ -73,6 +76,7 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
      * @return the entity being identified by <code>id</code> (as if <code>getById(id)</code> was called)
      */
     public T deleteById(@NonNull ID id) {
+        if (id == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
         T item = getById(id);
         listCrudRepository.deleteById(id);
         return item;
@@ -85,6 +89,7 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
      */
 
     public boolean existsById(@NonNull ID id) {
+        if (id == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
         return listCrudRepository.existsById(id);
     }
 }

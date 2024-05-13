@@ -1,6 +1,7 @@
 package net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractRestController;
 
 import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService.AbstractCrudService;
+import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService.EditableCrudService;
 import net.htlgkr.fuerederl21025.musicmanagement.real.entities.BaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.ListCrudRepository;
@@ -22,26 +23,22 @@ import java.util.List;
  * @author Leo Füreder
  * @version C.D.
  */
-public abstract class AbstractCrudRestController<T extends BaseEntity<ID>, ID, S extends AbstractCrudService<T, ID, ? extends ListCrudRepository<T, ID>>> {
+public abstract class AbstractCrudRestController<T extends BaseEntity<ID>, DTO, ID, S extends AbstractCrudService<T, ID, ? extends ListCrudRepository<T, ID>>> {
 
     /**
      * Service facilitating the communication between RestController and Repository
      */
     @Autowired
     protected S service;
-    public T saveNew(T item) {
+    public T save(T item) {
         try {
             return service.save(item);
         } catch (NullPointerException e) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
         }
     }
-    public T update(T newItem, ID id) {
-        try {
-            return service.save(newItem);
-        } catch (NullPointerException e) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
-        }
+    public T replace(T newItem, ID id) {
+        return null;
     }
     public T getById(ID id) {
         try {

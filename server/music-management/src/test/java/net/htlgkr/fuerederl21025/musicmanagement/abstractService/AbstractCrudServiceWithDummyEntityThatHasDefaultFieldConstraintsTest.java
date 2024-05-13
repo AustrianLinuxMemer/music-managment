@@ -37,6 +37,7 @@ public class AbstractCrudServiceWithDummyEntityThatHasDefaultFieldConstraintsTes
     DummyService dummyService;
 
     final String value = "value";
+    final String valueTwo = "valueNew";
     final List<String> values = List.of("value1", "value2", "value3");
     @Test
     void addEntity() {
@@ -49,13 +50,27 @@ public class AbstractCrudServiceWithDummyEntityThatHasDefaultFieldConstraintsTes
         assertThrows(ResponseStatusException.class, () -> dummyService.save(null));
     }
     @Test
-    void addEntityThatAlreadyExists() {
+    void editEntity() {
         DummyEntity dummyEntity = new DummyEntity(value);
-        DummyEntity dummyEntity2 = dummyService.save(dummyEntity);
-        String value2 = "value2";
-        DummyEntity dummyEntity3 = dummyService.save(new DummyEntity(dummyEntity2.id, value2));
-        assertNotEquals(value, dummyEntity3.field);
-        assertEquals(value2, dummyEntity2.field);
+        DummyEntity dummyEntity1 = dummyService.save(dummyEntity);
+        DummyEntity dummyEntity2 = new DummyEntity(valueTwo);
+        DummyEntity dummyEntity3 = dummyService.edit(dummyEntity2, dummyEntity1.id);
+        assertEquals(dummyEntity2.field, dummyEntity3.field);
+        assertEquals(dummyEntity.id, dummyEntity3.id);
+    }
+    @Test
+    void editEntityWithNull() {
+        DummyEntity dummyEntity = new DummyEntity(value);
+        DummyEntity dummyEntity1 = dummyService.save(dummyEntity);
+        DummyEntity dummyEntity2 = new DummyEntity(valueTwo);
+        assertThrows(ResponseStatusException.class, () -> dummyService.edit(dummyEntity2, null));
+        assertThrows(ResponseStatusException.class, () -> dummyService.edit(null, dummyEntity1.id));
+        assertThrows(ResponseStatusException.class, () -> dummyService.edit(null, null));
+    }
+    @Test
+    void editEntityThatDoesNotExist() {
+        DummyEntity dummyEntity = new DummyEntity(valueTwo);
+        assertThrows(ResponseStatusException.class, () -> dummyService.edit(dummyEntity, 9000));
     }
     @Test
     void addNullValuedEntity() {
