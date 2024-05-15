@@ -48,15 +48,23 @@ public class Track extends BaseEntity<Integer> {
     @ElementCollection(fetch = FetchType.EAGER)
     public Map<String, String> metadata;
     public Track(){this.name = "";}
-}
-@Embeddable
-class URL {
     /**
-     * The URL string
+     * Inner class to aid the storage of URLs of Tracks
+     *
+     * @author Leo Füreder
+     * @version C.D.
      */
-    public String url;
-    /**
-     * The mimetype
-     */
-    public String mime;
+    @Embeddable
+    public class URL {
+        /**
+         * The URL string
+         */
+        public String url;
+        /**
+         * The mimetype
+         */
+        public String mime;
+    }
 }
+
+
