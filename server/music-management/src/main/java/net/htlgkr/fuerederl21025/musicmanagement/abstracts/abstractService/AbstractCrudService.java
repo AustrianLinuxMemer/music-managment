@@ -69,7 +69,7 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
      * @param id The id of the old entity
      * @return the new entity
      */
-    abstract public T edit(T item, ID id);
+    abstract public T edit(@NonNull T item, @NonNull ID id);
     /**
      * This method retrieves a particular Entity identified by <code>id</code>
      * @param id the id used to identify the entity to be retrieved

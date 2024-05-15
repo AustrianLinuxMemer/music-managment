@@ -14,14 +14,14 @@ import java.util.Set;
 @Service
 public class TrackService extends AbstractCrudService<Track, Integer, TrackRepository> {
     public List<Track> getAllTracksHavingSetThatContains(@NonNull Set<String> tags) {
-        return listCrudRepository.findAllTracksHavingSetThatContains(tags);
+        return null;
     }
     public List<Track> getAllTracksWithKeyValuePair(@NonNull String key, String value) {
-        return listCrudRepository.findAllTracksHavingKeyValuePair(key, value);
+        return null;
     }
 
     @Override
-    public Track edit(Track item, Integer integer) {
+    public Track edit(@NonNull Track item, @NonNull Integer integer) {
         if (item == null || integer == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
         Track oldTrack = getById(integer);
         oldTrack.name = item.name;
