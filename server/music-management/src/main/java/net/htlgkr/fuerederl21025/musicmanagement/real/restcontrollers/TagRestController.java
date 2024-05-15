@@ -10,5 +10,5 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Collectors;
 
-public class TagRestController extends AbstractCrudRestController<Tag, TagDto, String, TagService> {
+public class TagRestController extends AbstractCrudRestController<Tag, String, TagService> {
 }

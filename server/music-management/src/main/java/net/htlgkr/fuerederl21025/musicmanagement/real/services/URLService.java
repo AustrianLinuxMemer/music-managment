@@ -17,4 +17,15 @@ public class URLService extends AbstractCrudService<URL, Integer, URLRepository>
         return super.save(item);
     }
 
+    @Override
+    public URL edit(URL item, Integer integer) {
+        if (item == null || integer == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
+        if (!URL.isMime.test(item.mime)) throw new ResponseStatusException(HttpStatusCode.valueOf(400), "Given Mime string does not match against the Mime regex");
+        URL oldItem = getById(integer);
+        oldItem.mime = item.mime;
+        oldItem.url = item.url;
+        oldItem.track = item.track;
+        return save(oldItem);
+    }
+
 }

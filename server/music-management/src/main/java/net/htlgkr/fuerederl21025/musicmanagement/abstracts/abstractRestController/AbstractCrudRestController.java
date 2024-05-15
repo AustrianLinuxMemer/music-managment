@@ -1,13 +1,13 @@
 package net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractRestController;
 
 import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService.AbstractCrudService;
-import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService.EditableCrudService;
 import net.htlgkr.fuerederl21025.musicmanagement.real.entities.BaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import org.yaml.snakeyaml.events.Event;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * @author Leo Füreder
  * @version C.D.
  */
-public abstract class AbstractCrudRestController<T extends BaseEntity<ID>, DTO, ID, S extends AbstractCrudService<T, ID, ? extends ListCrudRepository<T, ID>>> {
+public abstract class AbstractCrudRestController<T extends BaseEntity<ID>, ID, S extends AbstractCrudService<T, ID, ? extends ListCrudRepository<T, ID>>> {
 
     /**
      * Service facilitating the communication between RestController and Repository
@@ -38,23 +38,15 @@ public abstract class AbstractCrudRestController<T extends BaseEntity<ID>, DTO, 
         }
     }
     public T replace(T newItem, ID id) {
-        return null;
+        return service.edit(newItem, id);
     }
     public T getById(ID id) {
-        try {
-            return service.getById(id);
-        } catch (NullPointerException e) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
-        }
+        return service.getById(id);
     }
     public List<T> getAll() {
         return service.getAll();
     }
     public T deleteById(ID id) {
-        try {
-            return service.deleteById(id);
-        } catch (NullPointerException e) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
-        }
+        return service.deleteById(id);
     }
 }

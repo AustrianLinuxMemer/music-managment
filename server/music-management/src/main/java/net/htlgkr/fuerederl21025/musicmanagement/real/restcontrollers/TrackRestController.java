@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.stream.Collectors;
 
-public class TrackRestController extends AbstractCrudRestController<Track, TrackDto, Integer, TrackService> {
+public class TrackRestController extends AbstractCrudRestController<Track, Integer, TrackService> {
     @Autowired
     TagService tagService;
     @Autowired

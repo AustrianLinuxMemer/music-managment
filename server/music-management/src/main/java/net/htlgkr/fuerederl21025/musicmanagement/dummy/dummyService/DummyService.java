@@ -1,7 +1,6 @@
 package net.htlgkr.fuerederl21025.musicmanagement.dummy.dummyService;
 
 import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService.AbstractCrudService;
-import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService.EditableCrudService;
 import net.htlgkr.fuerederl21025.musicmanagement.dummy.dummyEntity.DummyEntity;
 import net.htlgkr.fuerederl21025.musicmanagement.dummy.dummyRepository.DummyRepository;
 import org.springframework.http.HttpStatusCode;
@@ -18,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
  * @version C.D.
  */
 @Service
-public class DummyService extends AbstractCrudService<DummyEntity,Integer, DummyRepository> implements EditableCrudService<DummyEntity, Integer> {
+public class DummyService extends AbstractCrudService<DummyEntity,Integer, DummyRepository> {
     @Override
     public DummyEntity edit(@NonNull DummyEntity newItem, @NonNull Integer integer) {
         if (newItem == null || integer == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));

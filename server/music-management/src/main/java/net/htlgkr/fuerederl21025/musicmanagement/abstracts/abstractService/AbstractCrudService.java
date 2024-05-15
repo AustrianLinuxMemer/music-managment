@@ -57,6 +57,20 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
     }
 
     /**
+     * This method replaces the old values of an entity with the values of a new item, this method needs to be implemented
+     * by subclasses but the expected implementation should do these steps in this order:
+     * <list>
+     *     <li>Check if the arguments are <code>null</code></li>
+     *     <li>Check other things regarding the validity of the data</li>
+     *     <li>Change all fields of the entity</li>
+     *     <li>Use <code>save()</code> to save the new item</li>
+     * </list>
+     * @param item The entity with the new values
+     * @param id The id of the old entity
+     * @return the new entity
+     */
+    abstract public T edit(T item, ID id);
+    /**
      * This method retrieves a particular Entity identified by <code>id</code>
      * @param id the id used to identify the entity to be retrieved
      * @return The Entity being identified by <code>id</code>
