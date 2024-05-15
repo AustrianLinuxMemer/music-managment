@@ -2,6 +2,8 @@ package net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractRestControll
 
 import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService.AbstractCrudService;
 import net.htlgkr.fuerederl21025.musicmanagement.real.entities.BaseEntity;
+import net.htlgkr.fuerederl21025.musicmanagement.real.restcontrollers.dto.FromDto;
+import net.htlgkr.fuerederl21025.musicmanagement.real.restcontrollers.dto.ToDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.http.HttpStatusCode;
@@ -23,30 +25,32 @@ import java.util.List;
  * @author Leo Füreder
  * @version C.D.
  */
-public abstract class AbstractCrudRestController<T extends BaseEntity<ID>, ID, S extends AbstractCrudService<T, ID, ? extends ListCrudRepository<T, ID>>> {
+public abstract class AbstractCrudRestController<T extends BaseEntity<ID> & ToDto<DTO>, DTO extends FromDto<T>,ID, S extends AbstractCrudService<T, ID, ? extends ListCrudRepository<T, ID>>> {
 
     /**
      * Service facilitating the communication between RestController and Repository
      */
     @Autowired
     protected S service;
-    public T save(T item) {
+    public DTO save(DTO item) {
         try {
-            return service.save(item);
+            T entity = item.fromDtoWithoutID();
+            return service.save(entity).toDtoWithID();
         } catch (NullPointerException e) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
         }
     }
-    public T replace(T newItem, ID id) {
-        return service.edit(newItem, id);
+    public DTO replace(DTO newItem, ID id) {
+        T entity = newItem.fromDtoWithoutID();
+        return service.edit(entity, id).toDtoWithID();
     }
-    public T getById(ID id) {
-        return service.getById(id);
+    public DTO getById(ID id) {
+        return service.getById(id).toDtoWithID();
     }
-    public List<T> getAll() {
-        return service.getAll();
+    public List<DTO> getAll() {
+        return service.getAll().stream().map(ToDto::toDtoWithID).toList();
     }
-    public T deleteById(ID id) {
-        return service.deleteById(id);
+    public DTO deleteById(ID id) {
+        return service.deleteById(id).toDtoWithID();
     }
 }

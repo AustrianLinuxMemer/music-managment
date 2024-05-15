@@ -11,11 +11,11 @@ import java.util.Set;
 
 /**
  * This interface provides the CRUD queries of {@link ListCrudRepository} with my own custom queries
- * for tags and custom metadata
+ * for tags and custom mime
  */
 public interface TrackRepository extends ListCrudRepository<Track, Integer> {
     String QUERY_TO_FILTER_BY_TAG_STRINGS = "SELECT DISTINCT t FROM Track t JOIN t.tags tag WHERE tag IN :tagSet";
-    String QUERY_TO_FILTER_BY_KEY_AND_VALUE = "SELECT DISTINCT t FROM Track t WHERE KEY(t.metadata) = :queriedKey AND VALUE(t.metadata) = :queriedValue";
+    String QUERY_TO_FILTER_BY_KEY_AND_VALUE = "SELECT DISTINCT t FROM Track t WHERE KEY(t.mime) = :queriedKey AND VALUE(t.mime) = :queriedValue";
     /**
      * This method retrieves all Tracks that have one or more tag strings in their set of tag strings
      * @param tags Tags to check again

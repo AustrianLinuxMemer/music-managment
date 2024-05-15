@@ -1,10 +1,13 @@
 package net.htlgkr.fuerederl21025.musicmanagement.real.entities;
 
 import jakarta.persistence.*;
+import net.htlgkr.fuerederl21025.musicmanagement.real.restcontrollers.dto.ToDto;
+import net.htlgkr.fuerederl21025.musicmanagement.real.restcontrollers.dto.TrackDto;
 import org.springframework.lang.NonNull;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -17,7 +20,7 @@ import java.util.Set;
  * @version C.D.
  */
 @Entity
-public class Track extends BaseEntity<Integer> {
+public class Track extends BaseEntity<Integer> implements ToDto<TrackDto> {
     /**
      * ID for JPA to do it's persistence magic
      */
@@ -42,12 +45,26 @@ public class Track extends BaseEntity<Integer> {
     @ElementCollection(fetch = FetchType.EAGER)
     public Set<String> tags;
     /**
-     * This represents user-defined metadata for each Track object, the metadata needs to be handled by the client, the
+     * This represents user-defined mime for each Track object, the mime needs to be handled by the client, the
      * server only provides queries that lets you search these key-value pairs server-side
      */
     @ElementCollection(fetch = FetchType.EAGER)
     public Map<String, String> metadata;
     public Track(){this.name = "";}
+
+    @Override
+    public TrackDto toDtoWithoutID() {
+        Map<String, TrackDto.URLDto> map = urls.entrySet().stream().map(x -> Map.entry(x.getKey(), x.getValue().toDtoWithoutID())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return new TrackDto(name, map, tags, metadata);
+    }
+
+    @Override
+    public TrackDto toDtoWithID() {
+        Map<String, TrackDto.URLDto> map = urls.entrySet().stream().map(x -> Map.entry(x.getKey(), x.getValue().toDtoWithoutID())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        return new TrackDto(id, name, map, tags, metadata);
+    }
+
+
     /**
      * Inner class to aid the storage of URLs of Tracks
      *
@@ -55,7 +72,7 @@ public class Track extends BaseEntity<Integer> {
      * @version C.D.
      */
     @Embeddable
-    public class URL {
+    public static class URL implements ToDto<TrackDto.URLDto> {
         /**
          * The URL string
          */
@@ -64,6 +81,16 @@ public class Track extends BaseEntity<Integer> {
          * The mimetype
          */
         public String mime;
+
+        @Override
+        public TrackDto.URLDto toDtoWithoutID() {
+            return new TrackDto.URLDto(url, mime);
+        }
+
+        @Override
+        public TrackDto.URLDto toDtoWithID() {
+            return toDtoWithoutID();
+        }
     }
 }
 

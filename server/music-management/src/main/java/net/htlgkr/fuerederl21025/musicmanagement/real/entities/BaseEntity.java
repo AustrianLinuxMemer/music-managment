@@ -13,5 +13,8 @@ import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService.Abstr
  * @version C.D.
  */
 public class BaseEntity<ID> {
+    /**
+     * The base ID field that is needed for JPA's persistence magic
+     */
     public ID id;
 }
