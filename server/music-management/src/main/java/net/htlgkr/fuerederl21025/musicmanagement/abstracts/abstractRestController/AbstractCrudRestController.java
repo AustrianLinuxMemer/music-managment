@@ -6,9 +6,7 @@ import net.htlgkr.fuerederl21025.musicmanagement.real.restcontrollers.dto.FromDt
 import net.htlgkr.fuerederl21025.musicmanagement.real.restcontrollers.dto.ToDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.ListCrudRepository;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 

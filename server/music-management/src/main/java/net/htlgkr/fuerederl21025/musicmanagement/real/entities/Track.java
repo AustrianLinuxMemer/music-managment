@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 
@@ -52,6 +53,22 @@ public class Track extends BaseEntity<Integer> implements ToDto<TrackDto> {
     public Map<String, String> metadata;
     public Track(){this.name = "";}
 
+    /**
+     * Factory method to generate Tracks
+     * @param name Name of the track
+     * @param urls URLs of the track
+     * @param tags Tags of the track
+     * @param metadata Metadata of the track
+     * @return The new Track
+     */
+    public static Track makeNewTrack(@NonNull String name, Map<String, URL> urls, Set<String> tags, Map<String, String> metadata) {
+        Track track = new Track();
+        track.name = name;
+        track.urls = urls;
+        track.tags = tags;
+        track.metadata = metadata;
+        return track;
+    }
     @Override
     public TrackDto toDtoWithoutID() {
         Map<String, TrackDto.URLDto> map = urls.entrySet().stream().map(x -> Map.entry(x.getKey(), x.getValue().toDtoWithoutID())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
@@ -63,7 +80,6 @@ public class Track extends BaseEntity<Integer> implements ToDto<TrackDto> {
         Map<String, TrackDto.URLDto> map = urls.entrySet().stream().map(x -> Map.entry(x.getKey(), x.getValue().toDtoWithoutID())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         return new TrackDto(id, name, map, tags, metadata);
     }
-
 
     /**
      * Inner class to aid the storage of URLs of Tracks
