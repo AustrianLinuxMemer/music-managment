@@ -50,27 +50,27 @@ public class AbstractCrudServiceWithDummyEntityThatHasDefaultFieldConstraintsTes
         assertThrows(ResponseStatusException.class, () -> dummyService.save(null));
     }
     @Test
-    void editEntity() {
+    void replaceEntity() {
         DummyEntity dummyEntity = new DummyEntity(value);
         DummyEntity dummyEntity1 = dummyService.save(dummyEntity);
         DummyEntity dummyEntity2 = new DummyEntity(valueTwo);
-        DummyEntity dummyEntity3 = dummyService.edit(dummyEntity2, dummyEntity1.id);
+        DummyEntity dummyEntity3 = dummyService.replace(dummyEntity2, dummyEntity1.id);
         assertEquals(dummyEntity2.field, dummyEntity3.field);
         assertEquals(dummyEntity.id, dummyEntity3.id);
     }
     @Test
-    void editEntityWithNull() {
+    void replaceEntityWithNull() {
         DummyEntity dummyEntity = new DummyEntity(value);
         DummyEntity dummyEntity1 = dummyService.save(dummyEntity);
         DummyEntity dummyEntity2 = new DummyEntity(valueTwo);
-        assertThrows(ResponseStatusException.class, () -> dummyService.edit(dummyEntity2, null));
-        assertThrows(ResponseStatusException.class, () -> dummyService.edit(null, dummyEntity1.id));
-        assertThrows(ResponseStatusException.class, () -> dummyService.edit(null, null));
+        assertThrows(ResponseStatusException.class, () -> dummyService.replace(dummyEntity2, null));
+        assertThrows(ResponseStatusException.class, () -> dummyService.replace(null, dummyEntity1.id));
+        assertThrows(ResponseStatusException.class, () -> dummyService.replace(null, null));
     }
     @Test
-    void editEntityThatDoesNotExist() {
+    void replaceEntityThatDoesNotExist() {
         DummyEntity dummyEntity = new DummyEntity(valueTwo);
-        assertThrows(ResponseStatusException.class, () -> dummyService.edit(dummyEntity, 9000));
+        assertThrows(ResponseStatusException.class, () -> dummyService.replace(dummyEntity, 9000));
     }
     @Test
     void addNullValuedEntity() {

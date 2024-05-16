@@ -21,7 +21,7 @@ public class TrackService extends AbstractCrudService<Track, Integer, TrackRepos
     }
 
     @Override
-    public Track edit(@NonNull Track item, @NonNull Integer integer) {
+    public Track replace(@NonNull Track item, @NonNull Integer integer) {
         if (item == null || integer == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
         Track oldTrack = getById(integer);
         oldTrack.name = item.name;

@@ -19,7 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class DummyService extends AbstractCrudService<DummyEntity,Integer, DummyRepository> {
     @Override
-    public DummyEntity edit(@NonNull DummyEntity newItem, @NonNull Integer integer) {
+    public DummyEntity replace(@NonNull DummyEntity newItem, @NonNull Integer integer) {
         if (newItem == null || integer == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
         DummyEntity oldItem = getById(integer);
         oldItem.field = newItem.field;

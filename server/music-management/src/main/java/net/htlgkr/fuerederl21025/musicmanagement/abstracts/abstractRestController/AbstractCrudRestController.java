@@ -9,7 +9,6 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import org.yaml.snakeyaml.events.Event;
 
 import java.util.List;
 
@@ -29,28 +28,54 @@ import java.util.List;
 public abstract class AbstractCrudRestController<T extends BaseEntity<ID> & ToDto<DTO>, DTO extends FromDto<T>,ID, S extends AbstractCrudService<T, ID, ? extends ListCrudRepository<T, ID>>> {
 
     /**
-     * Service facilitating the communication between RestController and Repository
+     * Service facilitating the communication between {@link AbstractCrudRestController} and {@link ListCrudRepository}
      */
     @Autowired
     protected S service;
+
+    /**
+     * Delegates to the {@link AbstractCrudService#save(T)} method
+     * @param item The item to be saved
+     * @return The item saved
+     */
     public DTO save(DTO item) {
-        try {
-            T entity = item.fromDtoWithoutID();
-            return service.save(entity).toDtoWithID();
-        } catch (NullPointerException e) {
-            throw new ResponseStatusException(HttpStatusCode.valueOf(400), e.getMessage());
-        }
+        T entity = item.fromDtoWithoutID();
+        return service.save(entity).toDtoWithID();
     }
+
+    /**
+     * Delegates to the {@link AbstractCrudService#replace(T, ID)}method
+     * @param newItem The new item to be saved
+     * @param id The id of the old Entity
+     * @return the new item
+     */
     public DTO replace(DTO newItem, ID id) {
         T entity = newItem.fromDtoWithoutID();
-        return service.edit(entity, id).toDtoWithID();
+        return service.replace(entity, id).toDtoWithID();
     }
+
+    /**
+     * Delegates to the {@link AbstractCrudService#getById(ID)} method
+     * @param id The id of the item to be retrieved
+     * @return The item retrieved
+     */
     public DTO getById(ID id) {
         return service.getById(id).toDtoWithID();
     }
+
+    /**
+     * Delegates to the {@link AbstractCrudService#getAll()} method
+     * @return A list of all items existing
+     */
     public List<DTO> getAll() {
         return service.getAll().stream().map(ToDto::toDtoWithID).toList();
     }
+
+    /**
+     * Delegates to the {@link AbstractCrudService#deleteById(ID)} method
+     * @param id The id of the item to be deleted
+     * @return the deleted item
+     */
     public DTO deleteById(ID id) {
         return service.deleteById(id).toDtoWithID();
     }

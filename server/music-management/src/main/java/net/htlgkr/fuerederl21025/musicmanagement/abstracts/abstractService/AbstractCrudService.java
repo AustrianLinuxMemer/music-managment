@@ -16,6 +16,8 @@ import java.util.List;
  * This abstract class needs to be inherited by a subclass and it's public method annotated properly to be used as an
  * actual {@link Service}
  *
+ * NOTE: Null checks for {@link NonNull} annotated fields are for runtime-handling of <code>null</code> values
+ *
  * @param <T> the type of Entity used
  * @param <ID> the type of primary key used
  * @param <R> the type of repository used
@@ -69,7 +71,7 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
      * @param id The id of the old entity
      * @return the new entity
      */
-    abstract public T edit(@NonNull T item, @NonNull ID id);
+    abstract public T replace(@NonNull T item, @NonNull ID id);
     /**
      * This method retrieves a particular Entity identified by <code>id</code>
      * @param id the id used to identify the entity to be retrieved
