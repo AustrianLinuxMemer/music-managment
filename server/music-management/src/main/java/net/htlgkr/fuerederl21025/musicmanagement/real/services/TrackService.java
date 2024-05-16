@@ -11,13 +11,35 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Set;
 
+
+/**
+ * Service class implementing {@link Track}-specific queries while extending {@link AbstractCrudService} to receive basic
+ * CRUD operations
+ *
+ * @author Leo Füreder
+ * @version C.D.
+ * @see AbstractCrudService
+ */
 @Service
 public class TrackService extends AbstractCrudService<Track, Integer, TrackRepository> {
+    /**
+     * Delegates querying of tags to the {@link TrackRepository#findAllTracksHavingSetThatContains(Set tags)}
+     * @param tags Tags to search Tracks against
+     * @return All tracks that match one or more tags
+     * @see TrackRepository#findAllTracksHavingSetThatContains(Set tags)
+     */
     public List<Track> getAllTracksHavingSetThatContains(@NonNull Set<String> tags) {
-        return null;
+        return listCrudRepository.findAllTracksHavingSetThatContains(tags);
     }
+
+    /**
+     * Delegates querying of key-value pairs to the {@link TrackRepository#findAllTracksHavingKeyValuePair(String key, String value)}
+     * @param key The key to query for
+     * @param value The value to query for
+     * @return All Tracks containing the key and the value queried for
+     */
     public List<Track> getAllTracksWithKeyValuePair(@NonNull String key, String value) {
-        return null;
+        return listCrudRepository.findAllTracksHavingKeyValuePair(key, value);
     }
 
     @Override

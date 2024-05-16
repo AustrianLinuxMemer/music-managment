@@ -27,7 +27,7 @@ import java.util.List;
  */
 public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extends ListCrudRepository<T, ID>> {
     /**
-     * Repository to facilitate communication between the application and the Database
+     * Repository to facilitate communication between the {@link AbstractCrudService} and the Database
      */
     @Autowired
     protected R listCrudRepository;
@@ -65,16 +65,16 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
      *     <li>Check if the arguments are <code>null</code></li>
      *     <li>Check other things regarding the validity of the data</li>
      *     <li>Change all fields of the entity</li>
-     *     <li>Use <code>save()</code> to save the new item</li>
+     *     <li>Use {@link AbstractCrudService#save(T item)} to save the entity with the saved field</li>
      * </list>
      * @param item The entity with the new values
-     * @param id The id of the old entity
+     * @param id The {@link BaseEntity#id} of the old entity
      * @return the new entity
      */
     abstract public T replace(@NonNull T item, @NonNull ID id);
     /**
      * This method retrieves a particular Entity identified by <code>id</code>
-     * @param id the id used to identify the entity to be retrieved
+     * @param id {@link BaseEntity#id}
      * @return The Entity being identified by <code>id</code>
      * @throws ResponseStatusException if no entity is found having this <code>id</code>
      */
@@ -86,10 +86,10 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
     }
 
     /**
-     * This method deletes a particular entity identified by <code>id</code>, This method calls <code>getById(id)</code>
+     * This method deletes a particular entity identified by {@link BaseEntity#id}, This method calls {@link AbstractCrudService#getById(ID id)}
      * in the background to retrieve the entity before it is deleted from the Repository
-     * @param id the id used to identify the entity to be retrieved (as if <code>getById(id)</code> was called)
-     * @return the entity being identified by <code>id</code> (as if <code>getById(id)</code> was called)
+     * @param id {@link BaseEntity#id} (as if {@link AbstractCrudService#getById(ID id)} was called)
+     * @return the entity being identified by {@link BaseEntity#id} (as if {@link AbstractCrudService#getById(ID id)} was called)
      */
     public T deleteById(@NonNull ID id) {
         if (id == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
@@ -99,9 +99,9 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
     }
 
     /**
-     * This method checks if given id is used by an entity in the Repository
-     * @param id the id being checked
-     * @return <code>true</code> if there is an entity with the given id, <code>false</code> if otherwise
+     * This method checks if given {@link BaseEntity#id} is used by an entity in the {@link ListCrudRepository}
+     * @param id {@link BaseEntity#id}
+     * @return <code>true</code> if there is an entity with the given {@link BaseEntity#id}, <code>false</code> if otherwise
      */
 
     public boolean existsById(@NonNull ID id) {
