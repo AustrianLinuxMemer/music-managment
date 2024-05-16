@@ -19,6 +19,7 @@ import java.util.List;
  * actual {@link RestController}
  *
  * @param <T>  the type of Entity used
+ * @param <DTO> the corresponding DTO used
  * @param <ID> the type of primary key used
  * @param <S> the type of service used
  *
