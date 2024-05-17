@@ -1,7 +1,6 @@
 package net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService;
 
 
-import net.htlgkr.fuerederl21025.musicmanagement.real.entities.BaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.repository.ListCrudRepository;
@@ -25,7 +24,7 @@ import java.util.List;
  * @author Leo Füreder
  * @version C.D.
  */
-public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extends ListCrudRepository<T, ID>> {
+public abstract class AbstractCrudService<T, ID, R extends ListCrudRepository<T, ID>> {
     /**
      * Repository to facilitate communication between the {@link AbstractCrudService} and the Database
      */
@@ -43,7 +42,6 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
 
     public T save(@NonNull T item) {
         if (item == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
-        if (item.id != null && existsById(item.id)) throw new ResponseStatusException(HttpStatusCode.valueOf(409), "Entity already exists in the database, use replace instead");
         try {
             return listCrudRepository.save(item);
         } catch (InvalidDataAccessApiUsageException e) {
@@ -68,13 +66,13 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
      *     <li>Use {@link AbstractCrudService#save(T item)} to save the entity with the saved field</li>
      * </list>
      * @param item The entity with the new values
-     * @param id The {@link BaseEntity#id} of the old entity
+     * @param id The the ID of the Entity of the old entity
      * @return the new entity
      */
     abstract public T replace(@NonNull T item, @NonNull ID id);
     /**
      * This method retrieves a particular Entity identified by <code>id</code>
-     * @param id {@link BaseEntity#id}
+     * @param id the ID of the Entity
      * @return The Entity being identified by <code>id</code>
      * @throws ResponseStatusException if no entity is found having this <code>id</code>
      */
@@ -86,10 +84,10 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
     }
 
     /**
-     * This method deletes a particular entity identified by {@link BaseEntity#id}, This method calls {@link AbstractCrudService#getById(ID id)}
+     * This method deletes a particular entity identified by the ID of the Entity, This method calls {@link AbstractCrudService#getById(ID id)}
      * in the background to retrieve the entity before it is deleted from the Repository
-     * @param id {@link BaseEntity#id} (as if {@link AbstractCrudService#getById(ID id)} was called)
-     * @return the entity being identified by {@link BaseEntity#id} (as if {@link AbstractCrudService#getById(ID id)} was called)
+     * @param id the ID of the Entity (as if {@link AbstractCrudService#getById(ID id)} was called)
+     * @return the entity being identified by the ID of the Entity (as if {@link AbstractCrudService#getById(ID id)} was called)
      */
     public T deleteById(@NonNull ID id) {
         if (id == null) throw new ResponseStatusException(HttpStatusCode.valueOf(400));
@@ -99,9 +97,9 @@ public abstract class AbstractCrudService<T extends BaseEntity<ID>, ID, R extend
     }
 
     /**
-     * This method checks if given {@link BaseEntity#id} is used by an entity in the {@link ListCrudRepository}
-     * @param id {@link BaseEntity#id}
-     * @return <code>true</code> if there is an entity with the given {@link BaseEntity#id}, <code>false</code> if otherwise
+     * This method checks if given the ID of the Entity is used by an entity in the {@link ListCrudRepository}
+     * @param id the ID of the Entity
+     * @return <code>true</code> if there is an entity with the given the ID of the Entity, <code>false</code> if otherwise
      */
 
     public boolean existsById(@NonNull ID id) {

@@ -4,21 +4,17 @@ import jakarta.persistence.*;
 import net.htlgkr.fuerederl21025.musicmanagement.abstracts.entities.HasID;
 
 import java.util.Map;
-import java.util.Set;
-
 @Entity
-public class Track implements HasID<Integer> {
+public class URL implements HasID<Integer> {
     @Id
     @GeneratedValue
     private Integer id;
-    private String name;
-    @ManyToMany
-    private Set<Tag> tags;
-    @OneToMany
-    private Set<URL> urls;
+    private String url;
+    private String mime;
+    @ManyToOne
+    private Track track;
     @ElementCollection
     private Map<String, String> metadata;
-
     @Override
     public Integer getId() {
         return this.id;
@@ -29,28 +25,28 @@ public class Track implements HasID<Integer> {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUrl() {
+        return url;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public Set<Tag> getTags() {
-        return tags;
+    public String getMime() {
+        return mime;
     }
 
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
+    public void setMime(String mime) {
+        this.mime = mime;
     }
 
-    public Set<URL> getUrls() {
-        return urls;
+    public Track getTrack() {
+        return track;
     }
 
-    public void setUrls(Set<URL> urls) {
-        this.urls = urls;
+    public void setTrack(Track track) {
+        this.track = track;
     }
 
     public Map<String, String> getMetadata() {

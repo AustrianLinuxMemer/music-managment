@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import net.htlgkr.fuerederl21025.musicmanagement.abstracts.abstractService.AbstractCrudService;
-import net.htlgkr.fuerederl21025.musicmanagement.real.entities.BaseEntity;
 
 /**
  * This class is a simple testing entity for testing purposes
@@ -16,7 +15,7 @@ import net.htlgkr.fuerederl21025.musicmanagement.real.entities.BaseEntity;
  */
 
 @Entity
-public class DummyEntity extends BaseEntity<Integer> {
+public class DummyEntity {
     @Id
     @GeneratedValue
     public Integer id;
