@@ -20,6 +20,11 @@ public class TagService extends AbstractCrudService<Tag, String, TagRepository> 
         return save(oldItem);
     }
 
+    /**
+     * This save mechanism makes every tag id lowercase to make it easier to query for it later on
+     * @param item Entity to be saved into the Repository
+     * @return The Entity saved
+     */
     @Override
     public Tag save(Tag item) {
         item.setId(item.getId().toLowerCase());

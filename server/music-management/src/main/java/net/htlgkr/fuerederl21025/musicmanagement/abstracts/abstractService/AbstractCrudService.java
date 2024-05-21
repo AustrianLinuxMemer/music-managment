@@ -26,7 +26,7 @@ import java.util.List;
  */
 public abstract class AbstractCrudService<T, ID, R extends ListCrudRepository<T, ID>> {
     /**
-     * Repository to facilitate communication between the {@link AbstractCrudService} and the Database
+     * Repository abstracting away the database
      */
     @Autowired
     protected R listCrudRepository;

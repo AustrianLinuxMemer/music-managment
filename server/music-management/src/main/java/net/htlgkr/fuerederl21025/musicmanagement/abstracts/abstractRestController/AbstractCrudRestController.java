@@ -71,13 +71,4 @@ public abstract class AbstractCrudRestController<T ,ID, S extends AbstractCrudSe
     public T deleteById(ID id) {
         return service.deleteById(id);
     }
-
-    /**
-     * Delegates to {@link AbstractCrudService#existsById(ID)}
-     * @param id The id of the item that is in question
-     * @return <code>true</code> if the item exists, otherwise <code>false</code>
-     */
-    public boolean existsById(ID id) {
-        return service.existsById(id);
-    }
 }

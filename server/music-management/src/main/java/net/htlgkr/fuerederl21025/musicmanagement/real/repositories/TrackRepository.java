@@ -19,10 +19,10 @@ import java.util.List;
 public interface TrackRepository extends ListCrudRepository<Track, Integer> {
     String QUERY_TO_FILTER_BY_TAG_STRING = "SELECT DISTINCT t FROM Track t JOIN t.tags u WHERE u.id = :tagName";
     /**
-     * This method retrieves all Tracks that have this tagname
-     * @param tagname Tag to be filtering against
+     * This method retrieves all Tracks that have this tag name
+     * @param tagName Tag to be filtering against
      * @return All tracks that have this tag
      */
     @Query(QUERY_TO_FILTER_BY_TAG_STRING)
-    List<Track> findAllTracksHavingTag(@Param("tagName") String tagname);
+    List<Track> findAllTracksHavingTag(@Param("tagName") String tagName);
 }

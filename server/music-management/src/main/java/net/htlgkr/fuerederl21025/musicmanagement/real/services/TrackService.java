@@ -21,5 +21,7 @@ public class TrackService extends AbstractCrudService<Track, Integer, TrackRepos
         oldItem.setMetadata(item.getMetadata());
         return save(oldItem);
     }
-    //public List<Track> getAllTracksHaving
+    public List<Track> findAllTracksHavingTag(String tag) {
+        return listCrudRepository.findAllTracksHavingTag(tag);
+    }
 }
