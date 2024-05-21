@@ -78,4 +78,30 @@ public class TheBigOneTest {
         Track savedTrack = trackService.save(track);
         assertEquals(track.getId(), savedTrack.getId());
     }
+    @Test
+    void addEntitiesWithNoDependencies() {
+        Tag tag = new Tag();
+        tag.setId(tagNames.get(1));
+        URL url = new URL();
+        url.setUrl(urls.get(2));
+        url.setMime(mimes.get(2));
+        Track track = new Track();
+        track.setName(trackNames.get(3));
+        Tag savedTag = tagService.save(tag);
+        URL savedURL = urlService.save(url);
+        Track savedTrack = trackService.save(track);
+        assertEquals(tagNames.get(1), savedTag.getId());
+        assertEquals(urls.get(2), savedURL.getUrl());
+        assertEquals(mimes.get(2), savedURL.getMime());
+        assertEquals(trackNames.get(3), savedTrack.getName());
+        assertNull(savedTag.getSubTags());
+        assertNull(savedTag.getSuperTag());
+        assertNull(savedTag.getTracks());
+        assertNull(savedTag.getMetadata());
+        assertNull(savedURL.getTrack());
+        assertNull(savedURL.getMetadata());
+        assertNull(savedTrack.getUrls());
+        assertNull(savedTrack.getTags());
+        assertNull(savedTrack.getMetadata());
+    }
 }
